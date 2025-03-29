@@ -43,7 +43,7 @@ if not os.path.exists(DATA_PATH):
 # Train or load model
 if os.path.exists(MODEL_PATH):
     model = joblib.load(MODEL_PATH)  # Load the existing model
-    st.success("✅ Model loaded successfully!")
+    
 else:
     st.warning("Model not found. Training new model...")
     # Simulate training (replace this with your actual model training code)
