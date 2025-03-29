@@ -5,6 +5,7 @@ import joblib
 import time
 import plotly.express as px
 import os
+import requests 
 MODEL_URL = "https://raw.githubusercontent.com/Prachi-02-02/https://github.com/Prachi-02-02/CO2_Prediction_Project/main/co2_model.pkl"
 DATA_URL = "https://raw.githubusercontent.com/Prachi-02-02/https://github.com/Prachi-02-02/CO2_Prediction_Project/main/data.csv"
 
