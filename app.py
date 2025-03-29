@@ -2,21 +2,19 @@ import streamlit as st
 import pandas as pd
 import numpy as np
 import joblib
-import time
-import plotly.express as px
 import os
-import requests 
+import requests
+import plotly.express as px
+from sklearn.linear_model import LinearRegression
 
-# Assuming model is your trained model
-joblib.dump(model, 'co2_model.pkl')
+# Define paths
+MODEL_URL = "https://raw.githubusercontent.com/Prachi-02-02/co2_prediction_project/main/co2_model.pkl"
+DATA_URL = "https://raw.githubusercontent.com/Prachi-02-02/co2_prediction_project/main/data.csv"
 
-MODEL_URL = "https://raw.githubusercontent.com/Prachi-02-02/CO2_Prediction_Project/main/co2_model.pkl"
-DATA_URL = "https://raw.githubusercontent.com/Prachi-02-02/CO2_Prediction_Project/main/data.csv"
+MODEL_PATH = "co2_model.pkl"
+DATA_PATH = "data.csv"
 
-
-MODEL_PATH = "C:\\Users\\ADMIN\\Machine Learning\\CO2_Prediction_Project\\co2_model.pkl"
-DATA_PATH = "C:\\Users\\ADMIN\\Machine Learning\\CO2_Prediction_Project\\data.csv"
-
+# Function to download files
 def download_file(url, save_path):
     response = requests.get(url)
     if response.status_code == 200:
@@ -25,7 +23,7 @@ def download_file(url, save_path):
         return True
     return False
 
-# Download model if not found
+# Check if model exists, if not download it
 if not os.path.exists(MODEL_PATH):
     st.info("Downloading model...")
     if download_file(MODEL_URL, MODEL_PATH):
@@ -33,20 +31,13 @@ if not os.path.exists(MODEL_PATH):
     else:
         st.error("❌ Failed to download model.")
 
-# Download data if not found
+# Check if data exists, if not download it
 if not os.path.exists(DATA_PATH):
     st.info("Downloading data file...")
     if download_file(DATA_URL, DATA_PATH):
         st.success("✅ Data file downloaded successfully!")
     else:
         st.error("❌ Failed to download data file.")
-
-# Load Model
-if os.path.exists(MODEL_PATH):
-    model = joblib.load(MODEL_PATH)
-    st.success("✅ Model loaded successfully!")
-else:
-    st.error("❌ Model file missing!")
 
 # Load Data
 if os.path.exists(DATA_PATH):
@@ -55,10 +46,21 @@ if os.path.exists(DATA_PATH):
 else:
     st.error("❌ Data file missing!")
 
+# Train or load model
+if os.path.exists(MODEL_PATH):
+    model = joblib.load(MODEL_PATH)  # Load the existing model
+    st.success("✅ Model loaded successfully!")
+else:
+    st.warning("Model not found. Training new model...")
+    # Simulate training (replace this with your actual model training code)
+    X_train = df[['weight', 'volume']]  # Features
+    y_train = df['CO2']  # Target
+    model = LinearRegression()
+    model.fit(X_train, y_train)  # Train the model
+    joblib.dump(model, MODEL_PATH)  # Save the trained model
+    st.success("✅ Model trained and saved successfully!")
+
 # ===================== New Theme & Animated Background =====================
-
-
-import streamlit as st
 
 # Custom Title with Styling
 st.markdown(
@@ -80,55 +82,11 @@ st.markdown(
     unsafe_allow_html=True
 )
 
-# Display Centered Image (Make sure 'car.png' is in the same folder)
+# Display Centered Image (Make sure 'image.png' is in the same folder)
 st.image("image.png", width=900)
-
-# To Center the Image (Streamlit workaround)
-st.markdown(
-    """
-    <style>
-        .stImage img {
-            display: flex;
-            margin-left: auto;
-            margin-right: auto;
-            justify-content: center;
-        }
-    </style>
-    """,
-    unsafe_allow_html=True
-)
-
-st.markdown(
-    """
-    <style>
-        /* Background Color */
-        .stApp {
-            background-color:#D7F9FF;  /* Light Blue */
-        }
-
-        /* Custom Font */
-        @import url('https://fonts.googleapis.com/css2?family=Comic+Neue:wght@700&display=swap');
-        h1, h2, h3, h4, h5, h6 {
-            font-family: 'Comic Neue', cursive;
-            color: #ff5733;
-        }
-        body, p, div {
-            font-family: 'Comic Neue', cursive;
-            color: #34495E;
-        }
-
-    </style>
-    """,
-    unsafe_allow_html=True,
-)
-
-
-
-
 
 # ===================== App UI =====================
 
-#st.title("CO₂ Emission Predictor")
 st.write(
     "Welcome to the **most exciting** CO₂ emission predictor!  "
     "Enter a car's **weight and engine size**, and watch the **magic happen**! "
@@ -182,16 +140,7 @@ questions = [
     {"question": "What happens if too much CO₂ is in the atmosphere?", "options": ["Global warming", "More oxygen", "Stronger storms"], "answer": "Global warming"},
     {"question": "Which human activity emits the most CO₂?", "options": ["Watching TV", "Burning fossil fuels", "Swimming"], "answer": "Burning fossil fuels"},
     {"question": "Which of these can help reduce CO₂?", "options": ["Planting trees", "Throwing plastic in oceans", "Using more cars"], "answer": "Planting trees"},
-    {"question": "Why are electric cars better for the environment?", "options": ["They fly", "They don’t use gas", "They produce more CO₂"], "answer": "They don’t use gas"}, {
-        "question": "What is the **average CO₂ emission** of a petrol car?",
-        "options": ["50 g/km", "150 g/km", "300 g/km", "500 g/km"],
-        "answer": "150 g/km"
-    },
-    {
-        "question": "Which car type emits the **least CO₂**?",
-        "options": ["SUV", "Hybrid", "Electric", "Sports Car"],
-        "answer": "Electric"
-    },
+    {"question": "Why are electric cars better for the environment?", "options": ["They fly", "They don’t use gas", "They produce more CO₂"], "answer": "They don’t use gas"}
 ]
 
 # Initialize session state for answers
@@ -221,15 +170,9 @@ if st.button("📊 Get My Final Score"):
     else:
         st.warning("📚 Keep practicing! You'll get better!")
 
-
-
 # 🎉 Fun Fact Section
 st.info("💡 **Fun Fact**: The **Toyota Prius** emits only **43 g/km of CO₂**, while older diesel cars emit over **300 g/km**! 🚙")
 st.info("💡 **Fun Fact**: **The Airplanes emit more CO₂** per passenger than a car on a long trip. ✈️🌍! 🚙")
-
-
-
-
 
 # Footer
 st.markdown(
@@ -257,9 +200,3 @@ st.markdown(
     """,
     unsafe_allow_html=True
 )
-try:
-    model = joblib.load(MODEL_PATH)
-    st.success("✅ Model loaded successfully!")
-except Exception as e:
-    st.error(f"❌ Model loading failed: {e}")
-
