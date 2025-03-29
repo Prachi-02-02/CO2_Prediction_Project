@@ -39,12 +39,6 @@ if not os.path.exists(DATA_PATH):
     else:
         st.error("❌ Failed to download data file.")
 
-# Load Data
-if os.path.exists(DATA_PATH):
-    df = pd.read_csv(DATA_PATH)
-    st.write("📊 Data Sample:", df.head())
-else:
-    st.error("❌ Data file missing!")
 
 # Train or load model
 if os.path.exists(MODEL_PATH):
