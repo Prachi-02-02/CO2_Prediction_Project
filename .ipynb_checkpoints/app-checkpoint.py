@@ -4,12 +4,50 @@ import numpy as np
 import joblib
 import time
 import plotly.express as px
+import os
+MODEL_URL = "https://raw.githubusercontent.com/Prachi-02-02/https://github.com/Prachi-02-02/CO2_Prediction_Project/main/co2_model.pkl"
+DATA_URL = "https://raw.githubusercontent.com/Prachi-02-02/https://github.com/Prachi-02-02/CO2_Prediction_Project/main/data.csv"
 
-# Load the trained model
-model = joblib.load(r'C:\Users\ADMIN\Machine Learning\CO2_Prediction_Project\co2_model.pkl')
+MODEL_PATH = "co2_model.pkl"
+DATA_PATH = "data.csv"
 
-# Load dataset for visualization
-df = pd.read_csv(r'C:\Users\ADMIN\Machine Learning\data.csv')
+def download_file(url, save_path):
+    response = requests.get(url)
+    if response.status_code == 200:
+        with open(save_path, "wb") as f:
+            f.write(response.content)
+        return True
+    return False
+
+# Download model if not found
+if not os.path.exists(MODEL_PATH):
+    st.info("Downloading model...")
+    if download_file(MODEL_URL, MODEL_PATH):
+        st.success("✅ Model downloaded successfully!")
+    else:
+        st.error("❌ Failed to download model.")
+
+# Download data if not found
+if not os.path.exists(DATA_PATH):
+    st.info("Downloading data file...")
+    if download_file(DATA_URL, DATA_PATH):
+        st.success("✅ Data file downloaded successfully!")
+    else:
+        st.error("❌ Failed to download data file.")
+
+# Load Model
+if os.path.exists(MODEL_PATH):
+    model = joblib.load(MODEL_PATH)
+    st.success("✅ Model loaded successfully!")
+else:
+    st.error("❌ Model file missing!")
+
+# Load Data
+if os.path.exists(DATA_PATH):
+    df = pd.read_csv(DATA_PATH)
+    st.write("📊 Data Sample:", df.head())
+else:
+    st.error("❌ Data file missing!")
 
 # ===================== New Theme & Animated Background =====================
 
@@ -213,4 +251,9 @@ st.markdown(
     """,
     unsafe_allow_html=True
 )
+try:
+    model = joblib.load(model_path)
+    st.success("✅ Model loaded successfully!")
+except Exception as e:
+    st.error(f"❌ Model loading failed: {e}")
 
