@@ -6,6 +6,10 @@ import time
 import plotly.express as px
 import os
 import requests 
+
+# Assuming model is your trained model
+joblib.dump(model, 'co2_model.pkl')
+
 MODEL_URL = "https://raw.githubusercontent.com/Prachi-02-02/CO2_Prediction_Project/main/co2_model.pkl"
 DATA_URL = "https://raw.githubusercontent.com/Prachi-02-02/CO2_Prediction_Project/main/data.csv"
 
