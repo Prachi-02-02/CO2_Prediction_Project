@@ -6,8 +6,8 @@ import time
 import plotly.express as px
 import os
 import requests 
-MODEL_URL = "https://raw.githubusercontent.com/Prachi-02-02/co2_prediction_project/main/co2_model.pkl"
-DATA_URL = "https://raw.githubusercontent.com/Prachi-02-02/co2_prediction_project/main/data.csv"
+MODEL_URL = "https://raw.githubusercontent.com/Prachi-02-02/CO2_Prediction_Project/main/co2_model.pkl"
+DATA_URL = "https://raw.githubusercontent.com/Prachi-02-02/CO2_Prediction_Project/main/data.csv"
 
 
 MODEL_PATH = "C:\\Users\\ADMIN\\Machine Learning\\CO2_Prediction_Project\\co2_model.pkl"
