@@ -8,8 +8,8 @@ import os
 MODEL_URL = "https://raw.githubusercontent.com/Prachi-02-02/https://github.com/Prachi-02-02/CO2_Prediction_Project/main/co2_model.pkl"
 DATA_URL = "https://raw.githubusercontent.com/Prachi-02-02/https://github.com/Prachi-02-02/CO2_Prediction_Project/main/data.csv"
 
-MODEL_PATH = "co2_model.pkl"
-DATA_PATH = "data.csv"
+MODEL_PATH = "C:\\Users\\ADMIN\\Machine Learning\\CO2_Prediction_Project\\co2_model.pkl"
+DATA_PATH = "C:\\Users\\ADMIN\\Machine Learning\\CO2_Prediction_Project\\data.csv"
 
 def download_file(url, save_path):
     response = requests.get(url)
@@ -252,7 +252,7 @@ st.markdown(
     unsafe_allow_html=True
 )
 try:
-    model = joblib.load(model_path)
+    model = joblib.load(MODEL_PATH)
     st.success("✅ Model loaded successfully!")
 except Exception as e:
     st.error(f"❌ Model loading failed: {e}")
