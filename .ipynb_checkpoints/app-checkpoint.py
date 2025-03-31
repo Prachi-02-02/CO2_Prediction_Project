@@ -62,7 +62,7 @@ st.markdown(
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@700&display=swap');
          .stApp {
-        background-color: #f0f2f6;  /* Light grayish-blue */
+        background-color: #E0F7FA;  /* Light grayish-blue */
     }
         .title {
             font-size: 42px;
