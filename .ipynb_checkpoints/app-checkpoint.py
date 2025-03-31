@@ -107,9 +107,7 @@ if st.button("🔍 Predict CO₂ Emission"):
     # Display Prediction
     st.success(f"🌱 This car will emit **{prediction:.2f} g/km** of CO₂! {color}")
 
-    # 📊 Animated Bar Chart
-    chart_data = pd.DataFrame({"CO₂ Emission": [prediction]})
-    st.bar_chart(chart_data)
+   
 
    # Load dataset after downloading it
 if os.path.exists(DATA_PATH):
@@ -120,6 +118,10 @@ else:
 # Interactive 3D Plot
 # Ensure prediction exists before using it in the plot
 if prediction is not None:
+     # 📊 Animated Bar Chart
+    st.subheader("📊 CO₂ Emission Prediction")
+    chart_data = pd.DataFrame({"CO₂ Emission": [prediction]})
+    st.bar_chart(chart_data)
     st.subheader("📊 Interactive 3D CO₂ Visualization")
     fig = px.scatter_3d(df, x="weight", y="volume", z="CO2", color="CO2",
                      title="Weight vs Engine Volume vs CO₂ Emissions",
