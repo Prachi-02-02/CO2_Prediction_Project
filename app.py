@@ -92,6 +92,7 @@ weight = st.slider("Choose Car Weight (kg)", 500, 3000, step=50)
 volume = st.slider("Choose Engine Size (cm³)", 800, 5000, step=100)
 
 # Predict Button
+prediction = None  # Initialize before use
 if st.button("🔍 Predict CO₂ Emission"):
     prediction = model.predict([[weight, volume]])[0]
     
@@ -117,6 +118,8 @@ else:
     st.error("❌ Data file not found.")
 
 # Interactive 3D Plot
+# Ensure prediction exists before using it in the plot
+if prediction is not None:
 st.subheader("📊 Interactive 3D CO₂ Visualization")
 fig = px.scatter_3d(df, x="weight", y="volume", z="CO2", color="CO2",
                      title="Weight vs Engine Volume vs CO₂ Emissions",
