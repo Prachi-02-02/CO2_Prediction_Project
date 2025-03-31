@@ -121,12 +121,12 @@ else:
 # Ensure prediction exists before using it in the plot
 if prediction is not None:
     st.subheader("📊 Interactive 3D CO₂ Visualization")
- fig = px.scatter_3d(df, x="weight", y="volume", z="CO2", color="CO2",
+    fig = px.scatter_3d(df, x="weight", y="volume", z="CO2", color="CO2",
                      title="Weight vs Engine Volume vs CO₂ Emissions",
                      labels={"weight": "Car Weight (kg)", "volume": "Engine Volume (cm³)", "CO2": "CO₂ Emission (g/km)"},
                      opacity=0.7)
-fig.add_scatter3d(x=[weight], y=[volume], z=[prediction], mode='markers', marker=dict(size=10, color='red'), name="Your Car")
-st.plotly_chart(fig)
+    fig.add_scatter3d(x=[weight], y=[volume], z=[prediction], mode='markers', marker=dict(size=10, color='red'), name="Your Car")
+    st.plotly_chart(fig)
 
 
 # ===================== 📚 Fun Quiz Section =====================
