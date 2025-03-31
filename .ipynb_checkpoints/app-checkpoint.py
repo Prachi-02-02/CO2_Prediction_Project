@@ -110,14 +110,21 @@ if st.button("🔍 Predict CO₂ Emission"):
     chart_data = pd.DataFrame({"CO₂ Emission": [prediction]})
     st.bar_chart(chart_data)
 
-    # 📈 Interactive 3D Plot (Weight vs Volume vs CO₂)
-    st.subheader("📊 Interactive 3D CO₂ Visualization")
-    fig = px.scatter_3d(df, x="weight", y="volume", z="CO2", color="CO2",
-                         title="Weight vs Engine Volume vs CO₂ Emissions",
-                         labels={"weight": "Car Weight (kg)", "volume": "Engine Volume (cm³)", "CO2": "CO₂ Emission (g/km)"},
-                         opacity=0.7)
-    fig.add_scatter3d(x=[weight], y=[volume], z=[prediction], mode='markers', marker=dict(size=10, color='red'), name="Your Car")
-    st.plotly_chart(fig)
+   # Load dataset after downloading it
+if os.path.exists(DATA_PATH):
+    df = pd.read_csv(DATA_PATH)  # Load dataset
+else:
+    st.error("❌ Data file not found.")
+
+# Interactive 3D Plot
+st.subheader("📊 Interactive 3D CO₂ Visualization")
+fig = px.scatter_3d(df, x="weight", y="volume", z="CO2", color="CO2",
+                     title="Weight vs Engine Volume vs CO₂ Emissions",
+                     labels={"weight": "Car Weight (kg)", "volume": "Engine Volume (cm³)", "CO2": "CO₂ Emission (g/km)"},
+                     opacity=0.7)
+fig.add_scatter3d(x=[weight], y=[volume], z=[prediction], mode='markers', marker=dict(size=10, color='red'), name="Your Car")
+st.plotly_chart(fig)
+
 
 # ===================== 📚 Fun Quiz Section =====================
 st.markdown("---")
